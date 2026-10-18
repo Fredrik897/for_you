@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Dog 🐶</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff8ed;
+        font-family: "Trebuchet MS", sans-serif;
+        color: #533d35;
+      }
+
+      .app {
+        text-align: center;
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        color: #a18a7b;
+        margin-bottom: 45px;
+      }
+
+      .dog {
+        position: relative;
+        width: 230px;
+        height: 220px;
+        margin: auto;
+        cursor: pointer;
+        transition: transform 0.25s;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .dog:active {
+        transform: scale(0.94);
+      }
+
+      /* Telinga */
+      .ear {
+        position: absolute;
+        top: 48px;
+        width: 70px;
+        height: 115px;
+        background: #b87543;
+        border: 4px solid #68452f;
+        border-radius: 50% 50% 45% 45%;
+        z-index: 1;
+      }
+
+      .ear.left {
+        left: 5px;
+        transform: rotate(18deg);
+      }
+
+      .ear.right {
+        right: 5px;
+        transform: rotate(-18deg);
+      }
+
+      /* Kepala */
+      .head {
+        position: absolute;
+        width: 190px;
+        height: 175px;
+        left: 20px;
+        top: 25px;
+        background: #e8b879;
+        border: 4px solid #68452f;
+        border-radius: 48% 48% 45% 45%;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      /* Bercak pipi */
+      .cheek {
+        position: absolute;
+        width: 65px;
+        height: 55px;
+        background: #f8dfb7;
+        border-radius: 50%;
+        bottom: 20px;
+      }
+
+      .cheek.left {
+        left: 15px;
+      }
+
+      .cheek.right {
+        right: 15px;
+      }
+
+      /* Mata */
+      .eye {
+        position: absolute;
+        top: 52px;
+        width: 16px;
+        height: 23px;
+        background: #493027;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+
+      .eye.left {
+        left: 49px;
+      }
+
+      .eye.right {
+        right: 49px;
+      }
+
+      /* Hidung */
+      .nose {
+        position: absolute;
+        width: 38px;
+        height: 27px;
+        background: #493027;
+        border-radius: 45% 45% 50% 50%;
+        top: 91px;
+        left: 72px;
+        z-index: 4;
+      }
+
+      .nose::after {
+        content: "";
+        position: absolute;
+        width: 9px;
+        height: 6px;
+        background: #8b6a58;
+        border-radius: 50%;
+        top: 4px;
+        left: 7px;
+      }
+
+      /* Moncong */
+      .muzzle {
+        position: absolute;
+        top: 102px;
+        left: 49px;
+        width: 88px;
+        height: 47px;
+        background: #fff0d7;
+        border-radius: 50%;
+        z-index: 3;
+      }
+
+      /* Mulut */
+      .mouth {
+        position: absolute;
+        top: 123px;
+        left: 75px;
+        width: 38px;
+        height: 18px;
+        border-bottom: 4px solid #493027;
+        border-radius: 0 0 50% 50%;
+        z-index: 5;
+        transition: all 0.2s;
+      }
+
+      /* Lidah */
+      .tongue {
+        position: absolute;
+        top: 137px;
+        left: 77px;
+        width: 34px;
+        height: 0;
+        background: #f47786;
+        border: none;
+        border-radius: 5px 5px 50% 50%;
+        z-index: 4;
+        transition: height 0.2s;
+      }
+
+      /* Balon pesan */
+      .message {
+        display: inline-block;
+        min-width: 220px;
+        max-width: 320px;
+        padding: 18px 24px;
+        margin-top: 35px;
+        background: white;
+        border: 2px solid #f0d7b5;
+        border-radius: 20px;
+        font-size: 21px;
+        font-weight: bold;
+        box-shadow: 0 5px 0 #f0e4d5;
+        transition: transform 0.2s;
+      }
+
+      .hint {
+        font-size: 13px;
+        color: #a18a7b;
+        margin-top: 25px;
+      }
+
+      /* Ekspresi senang */
+      .dog.happy .eye {
+        height: 10px;
+        top: 59px;
+        border-radius: 50% 50% 0 0;
+        background: transparent;
+        border-top: 4px solid #493027;
+      }
+
+      .dog.happy .tongue {
+        height: 23px;
+      }
+
+      /* Ekspresi terkejut */
+      .dog.surprised .eye {
+        width: 21px;
+        height: 28px;
+      }
+
+      .dog.surprised .mouth {
+        width: 22px;
+        height: 25px;
+        left: 83px;
+        border: 4px solid #493027;
+        border-radius: 50%;
+        background: #493027;
+      }
+
+      .dog.surprised .tongue {
+        height: 0;
+      }
+
+      /* Ekspresi mengantuk */
+      .dog.sleepy .eye {
+        height: 5px;
+        top: 62px;
+        border-radius: 50%;
+      }
+
+      .dog.wink .eye.left {
+        height: 5px;
+        top: 62px;
+      }
+
+      .dog.wink .tongue {
+        height: 18px;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .dog.bounce {
+        animation: bounce 0.4s ease;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-22px) scale(1.04);
+        }
+      }
+
+      
+    </style>
+  </head>
+
+  <body>
+    <main class="app">
+      <h1>Meet Your Study Buddy 🐾</h1>
+      <p class="subtitle">A little friend for your learning journey</p>
+
+      <div
+        class="dog"
+        id="dog"
+        role="button"
+        tabindex="0"
+        aria-label="Tap the dog to make him happy"
+      >
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+
+        <div class="head">
+          <div class="cheek left"></div>
+          <div class="cheek right"></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="muzzle"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+          <div class="tongue"></div>
+        </div>
+      </div>
+
+      <div class="message" id="message" aria-live="polite">Hello! 👋</div>
+
+      <p class="hint">Tap the dog to make him happy ❤️</p>
+    </main>
+
+    <script>
+      const dog = document.getElementById("dog");
+      const message = document.getElementById("message");
+
+      const reactions = [
+        { face: "happy", text: "Yay! You're here! 🎉" },
+        { face: "wink", text: "You've got this! 😉" },
+        { face: "surprised", text: "Wow! Let's learn something! ✨" },
+        { face: "sleepy", text: "Take it one step at a time 🐾" },
+        { face: "happy", text: "I'm proud of you! ❤️" },
+        { face: "wink", text: "Keep going, superstar! 🌟" },
+        { face: "happy", text: "Every little step counts! 💪" },
+      ];
+
+      let current = -1;
+
+      function petDog() {
+        current = (current + 1) % reactions.length;
+        const reaction = reactions[current];
+
+        dog.className = "dog " + reaction.face + " bounce";
+        message.textContent = reaction.text;
+
+        setTimeout(() => {
+          dog.classList.remove("bounce");
+        }, 400);
+      }
+
+      dog.addEventListener("click", petDog);
+
+      dog.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          petDog();
+        }
+      });
+    </script>
+  </body>
+</html>
